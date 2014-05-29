@@ -1,0 +1,46 @@
+#!/usr/bin/env node
+
+var _ = require('lodash');
+var program = require('commander');
+var path = require('path');
+var resolve = path.resolve;
+var join = path.join;
+var fs = require('fs');
+var spawn = require('win-fork');
+var exists = fs.existsSync;
+
+
+/**
+ * Usage.
+ */
+
+program
+  .version(require('../package.json').version)
+  .usage('<main less file>');
+
+
+/**
+ * Examples.
+ */
+
+program.on('--help', function () {
+  console.log('  Commands:');
+  console.log();
+  console.log('    less2css <main less file>       begins at your main less file and outputs the same directory structure but in sass.\n');
+  console.log();
+});
+
+
+/**
+ * Parse.
+ */
+
+program.parse(process.argv);
+
+// args void of cmd
+
+var args = process.argv.slice(3);
+
+// command
+
+var cmd = program.args[0];
