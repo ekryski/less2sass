@@ -3,9 +3,22 @@ var assert = require('assert');
 var fs = require('fs');
 var path = require('path');
 
-// var fixture = fs.readFileSync(path.resolve(__dirname, 'fixtures/test.less'));
-
 describe('less2sass', function() {
+
+  describe("whole file", function() {
+    var fixture;
+    var expected;
+
+    before(function() {
+      fixture = fs.readFileSync(path.resolve(__dirname, 'fixtures/test.less')).toString();
+      expected = fs.readFileSync(path.resolve(__dirname, 'fixtures/test.scss')).toString();
+    });
+
+    it('converts multiple variables in the same line', function() {
+      var result = less2sass.convert(fixture);
+      assert.equal(result, expected);
+    });
+  });
 
   describe("variables", function() {
     it('converts @ for variables to $', function() {

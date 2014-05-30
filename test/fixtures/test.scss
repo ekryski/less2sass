@@ -1,0 +1,48 @@
+@import 'base';
+@import 'app/app.less';
+
+
+// variables
+$black: #000;
+
+// mixins
+@mixin box-sizing($sizing:border-box) {
+  -ms-box-sizing: $sizing;
+  -moz-box-sizing: $sizing;
+  -webkit-box-sizing: $sizing;
+  box-sizing: $sizing;
+}
+
+@mixin drop-shadow($x-axis: 0, $y-axis: 1px, $blur: 2px, $alpha: 0.1) {
+  -webkit-box-shadow: $x-axis $y-axis $blur rgba(0, 0, 0, $alpha);
+  -moz-box-shadow: $x-axis $y-axis $blur rgba(0, 0, 0, $alpha);
+  box-shadow: $x-axis $y-axis $blur rgba(0, 0, 0, $alpha);
+}
+
+// styles
+
+#header {
+  height: 35px;
+  position: relative;
+  background: lighten($black, 40%);
+  @include drop-shadow(0, 2px, 4px, 0.4);
+  @include box-sizing;
+
+  .btn.btn-large {
+    padding: 6px 12px;
+    float: left;
+    background: adjust-hue($black, 10%);
+    font-weight: 300;
+    @include box-sizing();
+
+    &:hover {
+      background: lighten($black, 10%);
+    }
+  }
+}
+
+@media (min-width: 768px and max-width: 979px) {
+  .btn.btn-large {
+    padding: 3px 6px;
+  }
+}

@@ -17,9 +17,9 @@ Less2Sass.prototype.convert = function(file) {
 };
 
 Less2Sass.prototype.includeMixins = function() {
-  var includeRegex = /\.([\w\-]*\(?.*\)?\s*;)/g;
+  var includeRegex = /(\s|^)\.([\w\-]*\(?.*\)?\s*;)/g;
 
-  this.file = this.file.replace(includeRegex, '@include $1');
+  this.file = this.file.replace(includeRegex, '$1@include $2');
 
   return this;
 };
