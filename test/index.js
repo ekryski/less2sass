@@ -60,6 +60,11 @@ describe('less2sass', function() {
       var result = less2sass.convert('@import "common"');
       assert.equal(result, '@import "common"');
     });
+
+    it('does not convert @ to $ for @font-face statements', function() {
+      var result = less2sass.convert('@font-face {}');
+      assert.equal(result, '@font-face {}');
+    });
   });
 
   describe("colour helpers", function() {
@@ -88,6 +93,11 @@ describe('less2sass', function() {
     it('converts mixin call with arguments to use the @include syntax', function() {
       var result = less2sass.convert('.drop-shadow(0, 2px, 4px, 0.4);');
       assert.equal(result, '@include drop-shadow(0, 2px, 4px, 0.4);');
+    });
+
+    it('does not convert .foo .bar', function() {
+      var result = less2sass.convert('.foo .bar {}');
+      assert.equal(result, '.foo .bar {}');
     });
   });
 
