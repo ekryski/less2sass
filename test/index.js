@@ -1,39 +1,92 @@
 var less2sass = require('..');
 var assert = require('assert');
+var fs = require('fs');
+var path = require('path');
+
+// var fixture = fs.readFileSync(path.resolve(__dirname, 'fixtures/test.less'));
 
 describe('less2sass', function() {
 
   describe("variables", function() {
-    it('converts @ for variables to $', function(done) {
-      // TODO
+    it('converts @ for variables to $', function() {
+      var result = less2sass.convert('@var1: #000;');
+      assert.equal(result, '$var1: #000;');
     });
 
-    it('does not convert @ to $ for media queries', function(done) {
-      // TODO
+    it('converts multiple variables in the same line', function() {
+      var result = less2sass.convert('@var1: #000; @var2: #fff;');
+      assert.equal(result, '$var1: #000; $var2: #fff;');
     });
 
-    it('does not convert @ to $ for @import statements', function(done) {
-      // TODO
+    it('still converts variables have the word "media" in them', function() {
+      var result = less2sass.convert('@mediaType: screen;');
+      assert.equal(result, '$mediaType: screen;');
+    });
+
+    it('still converts variables have the word "import" in them', function() {
+      var result = less2sass.convert('@importType: screen;');
+      assert.equal(result, '$importType: screen;');
+    });
+
+    it('still converts variables have the word "import" in them', function() {
+      var result = less2sass.convert('@mixinType: screen;');
+      assert.equal(result, '$mixinType: screen;');
+    });
+
+    it('does not convert @ to $ for media queries', function() {
+      var result = less2sass.convert('@media screen {}');
+      assert.equal(result, '@media screen {}');
+    });
+
+    it('does not convert @ to $ for @mixin statements', function() {
+      var result = less2sass.convert('@mixin screen() {}');
+      assert.equal(result, '@mixin screen() {}');
+    });
+
+    it('does not convert @ to $ for @import statements', function() {
+      var result = less2sass.convert('@import "common"');
+      assert.equal(result, '@import "common"');
+    });
+  });
+
+  describe("colour helpers", function() {
+    it('converts spin function to adjust-hue', function() {
+      var result = less2sass.convert('spin(#aaaaaa, 10)');
+      assert.equal(result, 'adjust-hue(#aaaaaa, 10)');
     });
   });
 
   describe("mixins", function() {
-    it('converts mixin declarations to use the @mixins syntax', function(done) {
-      // TODO
+    it('converts mixin declarations to use the @mixins syntax', function() {
+      var result = less2sass.convert('.drop-shadow (@x-axis: 0, @y-axis: 1px, @blur: 2px, @alpha: 0.1) {}');
+      assert.equal(result, '@mixin drop-shadow($x-axis: 0, $y-axis: 1px, $blur: 2px, $alpha: 0.1) {}');
     });
 
-    it('converts mixin calls to use the @include syntax', function(done) {
-      // TODO
+    it('converts mixin call without argments to use the @include syntax', function() {
+      var result = less2sass.convert('.box-sizing();');
+      assert.equal(result, '@include box-sizing();');
+    });
+
+    it('converts mixin call in shorthand form to use the @include syntax', function() {
+      var result = less2sass.convert('.box-sizing;');
+      assert.equal(result, '@include box-sizing;');
+    });
+
+    it('converts mixin call with arguments to use the @include syntax', function() {
+      var result = less2sass.convert('.drop-shadow(0, 2px, 4px, 0.4);');
+      assert.equal(result, '@include drop-shadow(0, 2px, 4px, 0.4);');
     });
   });
 
   describe("control flow", function() {
-    it('strips out { and }', function(done) {
+    it.skip('strips out { and }', function() {
       // TODO
+      assert.equal(false, true);
     });
 
-    it('strips out ;', function(done) {
+    it.skip('strips out ;', function() {
       // TODO
+      assert.equal(false, true);
     });
   });
 
