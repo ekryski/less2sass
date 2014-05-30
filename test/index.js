@@ -47,8 +47,8 @@ describe('less2sass', function() {
     });
 
     it('does not convert @ to $ for media queries', function() {
-      var result = less2sass.convert('@media screen {}');
-      assert.equal(result, '@media screen {}');
+      var result = less2sass.convert('@media(min-width:768px) {}');
+      assert.equal(result, '@media(min-width:768px) {}');
     });
 
     it('does not convert @ to $ for @mixin statements', function() {

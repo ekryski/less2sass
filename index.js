@@ -44,7 +44,7 @@ Less2Sass.prototype.convertColourHelpers = function() {
 
 Less2Sass.prototype.convertVariables = function() {
   // Matches any @ that doesn't have 'media ' or 'import ' after it.
-  var atRegex = /@(?!(media|import|mixin|font-face)\s)/g;
+  var atRegex = /@(?!(media|import|mixin|font-face)(\s|\())/g;
 
   this.file = this.file.replace(atRegex, '$');
 
