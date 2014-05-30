@@ -1,14 +1,36 @@
 #!/usr/bin/env node
 
-var _ = require('lodash');
 var program = require('commander');
+var _ = require('lodash');
 var path = require('path');
-var resolve = path.resolve;
-var join = path.join;
 var fs = require('fs');
-var spawn = require('win-fork');
-var exists = fs.existsSync;
+var less2sass = require('..');
+var mkdir = require('mkdirp').sync;
 
+/**
+ * Helpers.
+ */
+
+function log(type, msg, color){
+  color = color || '36';
+  var w = 10;
+  var len = Math.max(0, w - type.length);
+  var pad = Array(len + 1).join(' ');
+  console.log('  \033[' + color + 'm%s\033[m : \033[90m%s\033[m', pad + type, msg);
+}
+
+function warn(type, msg){
+  log(type, msg, '33');
+}
+
+function write(path, str) {
+  if (fs.existsSync(path)) {
+    warn('exists', path);
+  } else {
+    log('create', path);
+    fs.writeFileSync(path, str);
+  }
+}
 
 /**
  * Usage.
@@ -16,7 +38,7 @@ var exists = fs.existsSync;
 
 program
   .version(require('../package.json').version)
-  .usage('<main less file>');
+  .usage('<less file>');
 
 
 /**
@@ -26,10 +48,9 @@ program
 program.on('--help', function () {
   console.log('  Commands:');
   console.log();
-  console.log('    less2css <main less file>       begins at your main less file and outputs the same directory structure but in sass.\n');
+  console.log('    less2sass <less file>       converts the less file to scss.\n');
   console.log();
 });
-
 
 /**
  * Parse.
@@ -37,10 +58,37 @@ program.on('--help', function () {
 
 program.parse(process.argv);
 
-// args void of cmd
+// args void of file path
 
 var args = process.argv.slice(3);
 
 // command
+if (program.args[0] === undefined) {
+  console.log('You must provide a file path');
 
-var cmd = program.args[0];
+  program.help();
+}
+
+function readDir(filePath) {
+  var fullPath = path.resolve(process.cwd(), filePath);
+  var files = fs.readdirSync(fullPath);
+
+  _.each(files, function(file){
+    var fPath = path.join(fullPath, file);
+    var stats = fs.statSync(fPath);
+
+    // if its a less file convert it
+    if (/\.less$/.test(file)) {
+      var buffer = fs.readFileSync(fPath);
+      var output = less2sass.convert(buffer.toString());
+      var newPath = fPath.replace(/\.less$/, '.scss');
+
+      write(newPath, output);
+    }
+    else if (stats.isDirectory()){
+      readDir(fPath);
+    }
+  });
+}
+
+readDir(program.args[0]);
