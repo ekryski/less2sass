@@ -23,7 +23,7 @@ describe('less2sass', function() {
   describe("variables", function() {
     it('converts interpolated variables to #{$', function() {
       var result = less2sass.convert('@san-serif-stack: helvetica, arial; @standard-fonts: ~\'@{san-serif-stack}, sans-serif\';');
-      assert.equal(result, '$san-serif-stack: helvetica, arial; $standard-fonts: ~\'#{$san-serif-stack}, sans-serif\';');
+      assert.equal(result, '$san-serif-stack: helvetica, arial; $standard-fonts: \'#{$san-serif-stack}, sans-serif\';');
     });
 
     it('converts @ for variables to $', function() {
@@ -69,6 +69,18 @@ describe('less2sass', function() {
     it('does not convert @ to $ for @font-face statements', function() {
       var result = less2sass.convert('@font-face {}');
       assert.equal(result, '@font-face {}');
+    });
+  });
+
+  describe("~ strings", function() {
+    it('converts ~\'\' to \'\'', function() {
+      var result = less2sass.convert('~\'san-serif\'');
+      assert.equal(result, '\'san-serif\'');
+    });
+
+    it('converts ~"" to ""', function() {
+      var result = less2sass.convert('~"san-serif"');
+      assert.equal(result, '"san-serif"');
     });
   });
 

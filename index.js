@@ -10,6 +10,7 @@ Less2Sass.prototype.convert = function(file) {
 
   this.convertInterpolatedVariables()
       .convertVariables()
+      .convertTildaStrings()
       .convertMixins()
       .includeMixins()
       .convertColourHelpers();
@@ -39,6 +40,14 @@ Less2Sass.prototype.convertColourHelpers = function() {
   this.file = this.file.replace(helperRegex, 'adjust-hue(');
 
   // TODO (EK): Flag other colour helpers for manual conversion that SASS does not have
+
+  return this;
+};
+
+Less2Sass.prototype.convertTildaStrings = function() {
+  var tildaRegex = /~("|')/g;
+
+  this.file = this.file.replace(tildaRegex, '$1');
 
   return this;
 };
