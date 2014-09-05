@@ -21,6 +21,11 @@ describe('less2sass', function() {
   });
 
   describe("variables", function() {
+    it('converts interpolated variables to #{$', function() {
+      var result = less2sass.convert('@san-serif-stack: helvetica, arial; @standard-fonts: ~\'@{san-serif-stack}, sans-serif\';');
+      assert.equal(result, '$san-serif-stack: helvetica, arial; $standard-fonts: ~\'#{$san-serif-stack}, sans-serif\';');
+    });
+
     it('converts @ for variables to $', function() {
       var result = less2sass.convert('@var1: #000;');
       assert.equal(result, '$var1: #000;');

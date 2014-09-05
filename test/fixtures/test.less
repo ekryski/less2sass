@@ -4,6 +4,8 @@
 
 // variables
 @black: #000;
+@san-serif-stack: helvetica, arial;
+@standard-fonts: ~'@{san-serif-stack}, sans-serif';
 
 // mixins
 .box-sizing (@sizing:border-box) {
@@ -37,6 +39,7 @@
 
     &:hover {
       background: lighten(@black, 10%);
+      filter: ~"progid:DXImageTransform.Microsoft.gradient(startColorstr=@{black}, endColorstr=@{black})";
     }
   }
 }
