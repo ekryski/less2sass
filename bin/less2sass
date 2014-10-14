@@ -19,17 +19,39 @@ function log(type, msg, color){
   console.log('  \033[' + color + 'm%s\033[m : \033[90m%s\033[m', pad + type, msg);
 }
 
+function info(type, msg){
+  log(type, msg);
+}
+
 function warn(type, msg){
   log(type, msg, '33');
+}
+
+function error(type, msg){
+  log(type, msg, '31');
 }
 
 function write(path, str) {
   if (fs.existsSync(path)) {
     warn('exists', path);
   } else {
-    log('create', path);
+    log('create', path, '32');
     fs.writeFileSync(path, str);
   }
+}
+
+function isLessFile(filename) {
+  return /\.less$/.test(filename);
+}
+
+function convert(filePath) {
+  info('processing', filePath);
+
+  var buffer = fs.readFileSync(filePath);
+  var output = less2sass.convert(buffer.toString());
+  var newPath = filePath.replace(/\.less$/, '.scss');
+
+  write(newPath, output);
 }
 
 /**
@@ -64,31 +86,26 @@ var args = process.argv.slice(3);
 
 // command
 if (program.args[0] === undefined) {
-  console.log('You must provide a file path');
+  error('fail', 'You must provide a file path');
 
   program.help();
 }
 
-function readDir(filePath) {
+function read(filePath) {
   var fullPath = path.resolve(process.cwd(), filePath);
-  var files = fs.readdirSync(fullPath);
+  var stats = fs.statSync(fullPath);
+  info('scanning', fullPath);
+  
+  if (isLessFile(fullPath)) {
+    convert(fullPath);
+  }
+  else if (stats.isDirectory()){
+    var files = fs.readdirSync(fullPath);
 
-  _.each(files, function(file){
-    var fPath = path.join(fullPath, file);
-    var stats = fs.statSync(fPath);
-
-    // if its a less file convert it
-    if (/\.less$/.test(file)) {
-      var buffer = fs.readFileSync(fPath);
-      var output = less2sass.convert(buffer.toString());
-      var newPath = fPath.replace(/\.less$/, '.scss');
-
-      write(newPath, output);
-    }
-    else if (stats.isDirectory()){
-      readDir(fPath);
-    }
-  });
+    _.each(files, function(file) {
+      read(path.join(fullPath, file));
+    });
+  }
 }
 
-readDir(program.args[0]);
+read(program.args[0]);
