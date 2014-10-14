@@ -3,7 +3,7 @@ less2sass
 
 A little script to convert less to sass files
 
-> **Note: Due to the nature of due to the nature of less and sass it does not do a completely perfect conversion. You will have to do some manual work :-(**
+> **Note: Due to the nature of less and sass it does not do a completely perfect conversion. You will have to do some manual work :-(**
 
 ## Installing
 
