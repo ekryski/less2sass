@@ -40,6 +40,18 @@
     box-shadow: @x-axis @y-axis @blur rgba(0, 0, 0, @alpha);
   }
 
+#drop {
+  .shadow-3(
+    @x-axis: 0,
+    @y-axis: 1px,
+    @blur: 2px,
+    @alpha: 0.1) {
+    -webkit-box-shadow: @x-axis @y-axis @blur rgba(0, 0, 0, @alpha);
+    -moz-box-shadow: @x-axis @y-axis @blur rgba(0, 0, 0, @alpha);
+    box-shadow: @x-axis @y-axis @blur rgba(0, 0, 0, @alpha);
+  }
+}
+
 // styles
 
 #header {

@@ -17,7 +17,7 @@ Less2Sass.prototype.convert = function(file) {
 };
 
 Less2Sass.prototype.includeMixins = function() {
-  var includeRegex = /(\s|^)\.([\w\-]*\(?.*\)?;)/g;
+  var includeRegex = /^(\s*)\.([\w\-]*\(?[^;{}]*\)?;{1}$)/gm;
 
   this.file = this.file.replace(includeRegex, '$1@include $2');
 
@@ -25,10 +25,10 @@ Less2Sass.prototype.includeMixins = function() {
 };
 
 Less2Sass.prototype.convertMixins = function() {
-  var mixinRegex = /\.([\w\-]*)\s*\((.*)\)\s*\{/g;
+  var mixinRegex = /^(\s*?)\.([\w\-]*?)\s*\(([\s\S][^\)]+?)\)+\s*\{$/gm;
 
-  this.file = this.file.replace(mixinRegex, '@mixin $1($2) {');
-  
+  this.file = this.file.replace(mixinRegex, '$1@mixin $2($3) {');
+
   return this;
 };
 

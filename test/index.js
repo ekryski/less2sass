@@ -76,13 +76,13 @@ describe('less2sass', function() {
 
   describe("mixins", function() {
     it('converts mixin declarations to use the @mixins syntax', function() {
-      var result = less2sass.convert('.drop-shadow (@x-axis: 0, @y-axis: 1px, @blur: 2px, @alpha: 0.1) {}');
-      assert.equal(result, '@mixin drop-shadow($x-axis: 0, $y-axis: 1px, $blur: 2px, $alpha: 0.1) {}');
+      var result = less2sass.convert('.drop-shadow(@x-axis: 0, @y-axis: 1px, @blur: 2px, @alpha: 0.1) {\n}');
+      assert.equal(result, '@mixin drop-shadow($x-axis: 0, $y-axis: 1px, $blur: 2px, $alpha: 0.1) {\n}');
     });
 
     it('converts mixin declarations with new lines in param list and retains the new lines', function() {
-      var result = less2sass.convert('.drop-shadow (\n @x-axis: 0,\n @y-axis: 1px,\n @blur: 2px,\n @alpha: 0.1) {}');
-      assert.equal(result, '@mixin drop-shadow(\n $x-axis: 0,\n $y-axis: 1px,\n $blur: 2px,\n $alpha: 0.1) {}');
+      var result = less2sass.convert('.drop-shadow(\n @x-axis: 0,\n @y-axis: 1px,\n @blur: 2px,\n @alpha: 0.1) {\n}');
+      assert.equal(result, '@mixin drop-shadow(\n $x-axis: 0,\n $y-axis: 1px,\n $blur: 2px,\n $alpha: 0.1) {\n}');
     });
 
     it('converts mixin call without argments to use the @include syntax', function() {
