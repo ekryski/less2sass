@@ -13,11 +13,32 @@
   box-sizing: @sizing;
 }
 
-.drop-shadow (@x-axis: 0, @y-axis: 1px, @blur: 2px, @alpha: 0.1) {
+.drop-shadow(@x-axis: 0, @y-axis: 1px, @blur: 2px, @alpha: 0.1) {
   -webkit-box-shadow: @x-axis @y-axis @blur rgba(0, 0, 0, @alpha);
   -moz-box-shadow: @x-axis @y-axis @blur rgba(0, 0, 0, @alpha);
   box-shadow: @x-axis @y-axis @blur rgba(0, 0, 0, @alpha);
 }
+
+.drop-shadow-2(
+  @x-axis: 0,
+  @y-axis: 1px,
+  @blur: 2px,
+  @alpha: 0.1
+) {
+  -webkit-box-shadow: @x-axis @y-axis @blur rgba(0, 0, 0, @alpha);
+  -moz-box-shadow: @x-axis @y-axis @blur rgba(0, 0, 0, @alpha);
+  box-shadow: @x-axis @y-axis @blur rgba(0, 0, 0, @alpha);
+}
+
+  .drop-shadow-3(
+    @x-axis: 0,
+    @y-axis: 1px,
+    @blur: 2px,
+    @alpha: 0.1) {
+    -webkit-box-shadow: @x-axis @y-axis @blur rgba(0, 0, 0, @alpha);
+    -moz-box-shadow: @x-axis @y-axis @blur rgba(0, 0, 0, @alpha);
+    box-shadow: @x-axis @y-axis @blur rgba(0, 0, 0, @alpha);
+  }
 
 // styles
 
@@ -26,6 +47,17 @@
   position: relative;
   background: lighten(@black, 40%);
   .drop-shadow(0, 2px, 4px, 0.4);
+  .drop-shadow-2(
+    0,
+    2px,
+    4px,
+    0.4);
+  .drop-shadow-3(
+    0,
+    2px,
+    4px,
+    0.4
+  );
   .box-sizing;
 
   .btn.btn-large {
