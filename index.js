@@ -11,7 +11,8 @@ Less2Sass.prototype.convert = function(file) {
   this.convertVariables()
       .convertMixins()
       .includeMixins()
-      .convertColourHelpers();
+      .convertColourHelpers()
+      .convertFileExtensions();
 
   return this.file;
 };
@@ -47,6 +48,15 @@ Less2Sass.prototype.convertVariables = function() {
   var atRegex = /@(?!(media|import|mixin|font-face)(\s|\())/g;
 
   this.file = this.file.replace(atRegex, '$');
+
+  return this;
+};
+
+Less2Sass.prototype.convertFileExtensions = function() {
+  // Matches any @ that doesn't have 'media ' or 'import ' after it.
+  var extensionRegex = /\.less/g;
+
+  this.file = this.file.replace(extensionRegex, '.scss');
 
   return this;
 };

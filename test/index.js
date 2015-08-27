@@ -101,6 +101,13 @@ describe('less2sass', function() {
     });
   });
 
+  describe('imports', function() {
+    it('convert imports with the .less extension to .scss', function() {
+      var result = less2sass.convert('@import \'app/app.less\';');
+      assert.equal(result, '@import \'app/app.scss\';');
+    });
+  });
+
   describe("control flow", function() {
     it.skip('strips out { and }', function() {
       // TODO
