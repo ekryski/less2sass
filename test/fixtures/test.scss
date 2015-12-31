@@ -21,6 +21,15 @@ $black: #000;
 
 // styles
 
+@keyframes grow-font-size {
+    0% {
+        font-size: 0.5em;
+    }
+    100% {
+        font-size: 1em;
+    }
+}
+
 #header {
   height: 35px;
   position: relative;
@@ -33,6 +42,7 @@ $black: #000;
     float: left;
     background: adjust-hue($black, 10%);
     font-weight: 300;
+    animation: grow-font-size 1s;
     @include box-sizing();
 
     &:hover {
