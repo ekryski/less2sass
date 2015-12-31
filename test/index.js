@@ -104,6 +104,11 @@ describe('less2sass', function() {
       var result = less2sass.convert('.foo .bar {}');
       assert.equal(result, '.foo .bar {}');
     });
+
+    it('does not convert .5em (or similar)', function() {
+      var result = less2sass.convert('font-size: .5em;');
+      assert.equal(result, 'font-size: .5em;');
+    });
   });
 
   describe('imports', function() {
