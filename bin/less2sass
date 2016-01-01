@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 var program = require('commander');
-var _ = require('lodash');
 var path = require('path');
 var fs = require('fs');
 var less2sass = require('..');
@@ -102,9 +101,9 @@ function read(filePath) {
   else if (stats.isDirectory()){
     var files = fs.readdirSync(fullPath);
 
-    _.each(files, function(file) {
-      read(path.join(fullPath, file));
-    });
+    for (var i; i < files.length; i++) {
+      read(path.join(fullPath, files[i]);
+    }
   }
 }
 
