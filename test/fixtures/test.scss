@@ -21,6 +21,39 @@ $standard-fonts: '#{$san-serif-stack}, sans-serif';
   box-shadow: $x-axis $y-axis $blur rgba(0, 0, 0, $alpha);
 }
 
+@mixin drop-shadow-2(
+  $x-axis: 0,
+  $y-axis: 1px,
+  $blur: 2px,
+  $alpha: 0.1
+) {
+  -webkit-box-shadow: $x-axis $y-axis $blur rgba(0, 0, 0, $alpha);
+  -moz-box-shadow: $x-axis $y-axis $blur rgba(0, 0, 0, $alpha);
+  box-shadow: $x-axis $y-axis $blur rgba(0, 0, 0, $alpha);
+}
+
+  @mixin drop-shadow-3(
+    $x-axis: 0,
+    $y-axis: 1px,
+    $blur: 2px,
+    $alpha: 0.1) {
+    -webkit-box-shadow: $x-axis $y-axis $blur rgba(0, 0, 0, $alpha);
+    -moz-box-shadow: $x-axis $y-axis $blur rgba(0, 0, 0, $alpha);
+    box-shadow: $x-axis $y-axis $blur rgba(0, 0, 0, $alpha);
+  }
+
+#drop {
+  @mixin shadow-3(
+    $x-axis: 0,
+    $y-axis: 1px,
+    $blur: 2px,
+    $alpha: 0.1) {
+    -webkit-box-shadow: $x-axis $y-axis $blur rgba(0, 0, 0, $alpha);
+    -moz-box-shadow: $x-axis $y-axis $blur rgba(0, 0, 0, $alpha);
+    box-shadow: $x-axis $y-axis $blur rgba(0, 0, 0, $alpha);
+  }
+}
+
 // styles
 
 @keyframes grow-font-size {
@@ -37,6 +70,17 @@ $standard-fonts: '#{$san-serif-stack}, sans-serif';
   position: relative;
   background: lighten($black, 40%);
   @include drop-shadow(0, 2px, 4px, 0.4);
+  @include drop-shadow-2(
+    0,
+    2px,
+    4px,
+    0.4);
+  @include drop-shadow-3(
+    0,
+    2px,
+    4px,
+    0.4
+  );
   @include box-sizing;
 
   .btn.btn-large {
