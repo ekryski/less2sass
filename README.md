@@ -1,6 +1,8 @@
 less2sass
 =========
 
+[![Build Status](https://travis-ci.org/ekryski/less2sass.svg?branch=master)](https://travis-ci.org/ekryski/less2sass)
+
 A little script to convert less to sass files
 
 > **Note: Due to the nature of less and sass it does not do a completely perfect conversion. You will have to do some manual work :-(**
