@@ -2,6 +2,7 @@
   "name": "less2sass",
   "description": "A quick less to sass converter",
   "version": "0.0.2",
+  "license": "MIT",
   "author": {
     "name": "Eric Kryski",
     "email": "e.kryski@gmail.com"
@@ -23,7 +24,12 @@
     "mocha": "^2.3.4"
   },
   "scripts": {
-    "test": "mocha --reporter spec"
+    "publish": "git push origin && git push origin --tags",
+    "release:patch": "npm version patch && npm publish",
+    "release:minor": "npm version minor && npm publish",
+    "release:major": "npm version major && npm publish",
+    "mocha": "mocha --reporter spec",
+    "test": "npm run mocha"
   },
   "dependencies": {
     "commander": "^2.9.0",
