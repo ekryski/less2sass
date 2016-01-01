@@ -65,6 +65,11 @@ describe('less2sass', function() {
       var result = less2sass.convert('@font-face {}');
       assert.equal(result, '@font-face {}');
     });
+
+    it('does not convert @ to $ for @keyframes statements', function() {
+      var result = less2sass.convert('@keyframes {}');
+      assert.equal(result, '@keyframes {}');
+    });
   });
 
   describe("colour helpers", function() {
@@ -98,6 +103,11 @@ describe('less2sass', function() {
     it('does not convert .foo .bar', function() {
       var result = less2sass.convert('.foo .bar {}');
       assert.equal(result, '.foo .bar {}');
+    });
+
+    it('does not convert .5em (or similar)', function() {
+      var result = less2sass.convert('font-size: .5em;');
+      assert.equal(result, 'font-size: .5em;');
     });
   });
 

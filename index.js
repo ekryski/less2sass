@@ -18,7 +18,7 @@ Less2Sass.prototype.convert = function(file) {
 };
 
 Less2Sass.prototype.includeMixins = function() {
-  var includeRegex = /(\s|^)\.([\w\-]*\(?.*\)?;)/g;
+  var includeRegex = /(\s|^)\.([a-zA-Z][\w\-]*\(?.*?\)?;)/g;
 
   this.file = this.file.replace(includeRegex, '$1@include $2');
 
@@ -45,7 +45,7 @@ Less2Sass.prototype.convertColourHelpers = function() {
 
 Less2Sass.prototype.convertVariables = function() {
   // Matches any @ that doesn't have 'media ' or 'import ' after it.
-  var atRegex = /@(?!(media|import|mixin|font-face)(\s|\())/g;
+  var atRegex = /@(?!(media|import|mixin|font-face|keyframes)(\s|\())/g;
 
   this.file = this.file.replace(atRegex, '$');
 
