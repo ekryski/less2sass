@@ -102,7 +102,7 @@ function read(filePath) {
     var files = fs.readdirSync(fullPath);
 
     for (var i; i < files.length; i++) {
-      read(path.join(fullPath, files[i]);
+      read(path.join(fullPath, files[i]));
     }
   }
 }
