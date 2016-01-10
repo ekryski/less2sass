@@ -101,7 +101,7 @@ function read(filePath) {
   else if (stats.isDirectory()){
     var files = fs.readdirSync(fullPath);
 
-    for (var i; i < files.length; i++) {
+    for (var i = 0; i < files.length; i++) {
       read(path.join(fullPath, files[i]));
     }
   }
