@@ -150,16 +150,16 @@ describe('less2sass', function() {
       });
       it('convert two param call of less unit without unit in first param to dimension + unit', function() {
         const result = less2sass.convert('unit(42,px)');
-        assert.equal(result, '42px');
+        assert.equal(result, '0px + 42');
       });
       it('convert two param call of less unit with unit in first param to unit conversion', function() {
         // https://www.sitepoint.com/understanding-sass-units/
-        const result = less2sass.convert('unit(5em,px)');
-        assert.equal(result, '0px + 5em');
+        const result = less2sass.convert('unit(5in,px)');
+        assert.equal(result, '0px + 5in');
       });
-      it('manage variable in first dimension', function() {
+      it('manage variable in first param', function() {
         const result = less2sass.convert('unit($size,px)');
-        assert.equal(result, '$size*1px');
+        assert.equal(result, '0px + $size');
       });
     });
   });
