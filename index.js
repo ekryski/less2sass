@@ -14,7 +14,8 @@ Less2Sass.prototype.convert = function(file) {
       .convertMixins()
       .includeMixins()
       .convertColourHelpers()
-      .convertFileExtensions();
+      .convertFileExtensions()
+      .convertFunctionUnit();
 
   return this.file;
 };
@@ -31,6 +32,17 @@ Less2Sass.prototype.convertMixins = function() {
   var mixinRegex = /^(\s*?)\.([\w\-]*?)\s*\(([\s\S][^\)]+?)\)+\s*\{$/gm;
 
   this.file = this.file.replace(mixinRegex, '$1@mixin $2($3) {');
+
+  return this;
+};
+
+Less2Sass.prototype.convertFunctionUnit = function() {
+  // Two-arg.
+  const unitTwoArgRegex = /unit\((\S+),(\S+)\)/g;
+  // TODO Check for unit on the first arg.
+  this.file = this.file.replace(unitTwoArgRegex, '$1$2');
+  const unitOneArgRegex = /unit\(([^,]+)\)/g;
+  this.file = this.file.replace(unitOneArgRegex, 'unit-less($1)');
 
   return this;
 };
