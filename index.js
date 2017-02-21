@@ -13,6 +13,7 @@ Less2Sass.prototype.convert = function(file) {
       .convertTildaStrings()
       .convertMixins()
       .includeMixins()
+      .convertExtend()
       .convertColourHelpers()
       .convertFileExtensions();
 
@@ -31,6 +32,15 @@ Less2Sass.prototype.convertMixins = function() {
   var mixinRegex = /^(\s*?)\.([\w\-]*?)\s*\(([\s\S][^\)]+?)\)+\s*\{$/gm;
 
   this.file = this.file.replace(mixinRegex, '$1@mixin $2($3) {');
+
+  return this;
+};
+
+Less2Sass.prototype.convertExtend = function() {
+  // http://lesscss.org/features/#extend-feature
+  // &:extend syntax.
+  const andExtendRegex = /&:extend\((.[\w]*)\);/g;
+  this.file = this.file.replace(andExtendRegex, '@extend $1;');
 
   return this;
 };

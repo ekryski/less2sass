@@ -95,6 +95,12 @@ describe('less2sass', function() {
       assert.equal(result, 'adjust-hue(#aaaaaa, 10)');
     });
   });
+  describe("extend", function() {
+    it('converts &:extend syntax', function() {
+      const result = less2sass.convert('.bar {\n  &:extend(.foo2);\n}');
+      assert.equal(result, '.bar {\n  @extend .foo2;\n}');
+    });
+  });
 
   describe("mixins", function() {
     it('converts mixin declarations to use the @mixins syntax', function() {
