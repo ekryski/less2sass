@@ -107,6 +107,20 @@ describe('less2sass', function() {
       assert.equal(result, '@mixin drop-shadow(\n $x-axis: 0,\n $y-axis: 1px,\n $blur: 2px,\n $alpha: 0.1) {\n}');
     });
 
+    it('converts mixin declarations with semicolons in param list and treat them as params', function() {
+      // http://lesscss.org/features/#mixins-parametric-feature-mixins-with-multiple-parameters
+      // Semicolons separated params.
+      const result = less2sass.convert('.button-variant(@color; @background; @border) {\n    /**/\n}');
+      assert.equal(result, '@mixin button-variant($color, $background, $border) {\n    /**/\n}');
+    });
+
+    it('do not converts mixin declarations with semicolons and colons mixed in param list', function() {
+      // http://lesscss.org/features/#mixins-parametric-feature-mixins-with-multiple-parameters
+      const result = less2sass.convert('.name(1, 2, 3; something, else) {\n}');
+      // TODO Flag the case as ambiguous?
+      assert.equal(result, '.name(1, 2, 3; something, else) {\n}');
+    });
+
     it('converts mixin call without argments to use the @include syntax', function() {
       const result = less2sass.convert('.box-sizing();');
       assert.equal(result, '@include box-sizing();');
