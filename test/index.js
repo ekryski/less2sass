@@ -157,6 +157,10 @@ describe('less2sass', function() {
         const result = less2sass.convert('unit(5em,px)');
         assert.equal(result, '0px + 5em');
       });
+      it('manage variable in first dimension', function() {
+        const result = less2sass.convert('unit($size,px)');
+        assert.equal(result, '$size*1px');
+      });
     });
   });
 

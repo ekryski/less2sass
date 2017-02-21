@@ -37,7 +37,10 @@ Less2Sass.prototype.convertMixins = function() {
 };
 
 Less2Sass.prototype.convertFunctionUnit = function() {
-  // Two-arg.
+  // Two-args with variable as dimension.
+  const unitTwoArgVariableRegex = /unit\((\$\S+),(\S+)\)/g;
+  this.file = this.file.replace(unitTwoArgVariableRegex, '$1*1$2');
+  // Two-args.
   const unitTwoArgRegex = /unit\((\S+),(\S+)\)/g;
   // TODO Check for unit on the first arg.
   this.file = this.file.replace(unitTwoArgRegex, '$1$2');
