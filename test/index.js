@@ -126,6 +126,11 @@ describe('less2sass', function() {
       assert.equal(result, '@mixin setTapColor($c:rgba(0,0,0,0)) {\n    -webkit-tap-highlight-color: $c;\n}');
     });
 
+    it('converts mixin declarations with zero param', function() {
+      const result = less2sass.convert('.foo() {\n  display: block;\n}');
+      assert.equal(result, '@mixin foo() {\n  display: block;\n}');
+    });
+
     it('converts mixin call without argments to use the @include syntax', function() {
       const result = less2sass.convert('.box-sizing();');
       assert.equal(result, '@include box-sizing();');
