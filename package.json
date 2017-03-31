@@ -1,7 +1,7 @@
 {
   "name": "less2sass",
   "description": "A quick less to sass converter",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "license": "MIT",
   "author": {
     "name": "Eric Kryski",
