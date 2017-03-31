@@ -14,7 +14,8 @@ Less2Sass.prototype.convert = function(file) {
       .convertMixins()
       .includeMixins()
       .convertColourHelpers()
-      .convertFileExtensions();
+      .convertFileExtensions()
+      .convertFunctionUnit();
 
   return this.file;
 };
@@ -27,10 +28,26 @@ Less2Sass.prototype.includeMixins = function() {
   return this;
 };
 
-Less2Sass.prototype.convertMixins = function() {
-  var mixinRegex = /^(\s*?)\.([\w\-]*?)\s*\(([\s\S][^\)]+?)\)+\s*\{$/gm;
 
-  this.file = this.file.replace(mixinRegex, '$1@mixin $2($3) {');
+Less2Sass.prototype.convertMixins = function() {
+  // Simple form: no semicolons.
+  const mixinRegexNoSemicolon = /^(\s*?)\.([\w\-]*?)\s*\(([\s\S][^\;]+?)?\)\s*\{$/gm;
+  this.file = this.file.replace(mixinRegexNoSemicolon, '$1@mixin $2($3) {');
+  // With semicolons.
+  const mixinRegexWithSemicolon = /^(\s*?)\.([\w\-]*?)\s*\(([\s\S][^\,]+?)?\)\s*\{$/gm;
+  this.file = this.file.replace(mixinRegexWithSemicolon, function (match, g1, g2, g3) {
+    return g1 + '@mixin ' + g2 + '(' + g3.replace(/;/g, ',') + ') {';
+  });
+  return this;
+};
+
+Less2Sass.prototype.convertFunctionUnit = function() {
+  // Two-args.
+  const unitTwoArgRegex = /unit\((\S+),(\S+)\)/g;
+  this.file = this.file.replace(unitTwoArgRegex, '0$2 + $1');
+  // One-arg.
+  const unitOneArgRegex = /unit\(([^,]+)\)/g;
+  this.file = this.file.replace(unitOneArgRegex, 'unit-less($1)');
 
   return this;
 };
