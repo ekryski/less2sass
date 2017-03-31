@@ -13,6 +13,7 @@ Less2Sass.prototype.convert = function(file) {
       .convertTildaStrings()
       .convertMixins()
       .includeMixins()
+      .convertExtend()
       .convertColourHelpers()
       .convertFileExtensions()
       .convertFunctionUnit();
@@ -48,6 +49,15 @@ Less2Sass.prototype.convertFunctionUnit = function() {
   // One-arg.
   const unitOneArgRegex = /unit\(([^,]+)\)/g;
   this.file = this.file.replace(unitOneArgRegex, 'unit-less($1)');
+
+  return this;
+};
+
+Less2Sass.prototype.convertExtend = function() {
+  // http://lesscss.org/features/#extend-feature
+  // &:extend syntax.
+  const andExtendRegex = /&:extend\((.[\w]*)\);/g;
+  this.file = this.file.replace(andExtendRegex, '@extend $1;');
 
   return this;
 };
