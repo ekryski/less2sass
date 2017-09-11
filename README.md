@@ -14,7 +14,11 @@ A little script to convert less to sass files
 ## Running
 You can run less2sass on a single file or on entire directory. It will recurse through the directory and convert any less files to scss, preserving the directory structure.
 
-`less2sass <path_to_less_file_or_directory>`
+`less2sass <path_to_less_file_or_directory> [options]`
+
+### Options
+
+`-d, --directory`: A directory to which output transformed files.
 
 ## Caveats
 

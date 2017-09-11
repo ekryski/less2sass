@@ -43,12 +43,27 @@ function isLessFile(filename) {
   return /\.less$/.test(filename);
 }
 
-function convert(filePath) {
+function convert(filePath, outDir, initialFilePath) {
   info('processing', filePath);
 
   var buffer = fs.readFileSync(filePath);
   var output = less2sass.convert(buffer.toString());
-  var newPath = filePath.replace(/\.less$/, '.scss');
+  var newPath = filePath;
+
+  if (outDir) {
+    var rootDir = process.cwd();
+    var fileDirectory = fs.statSync(initialFilePath).isDirectory() ?
+      initialFilePath :
+      path.dirname(initialFilePath);
+    var filePathRelative = path.relative(path.join(rootDir, fileDirectory), filePath);
+
+    newPath = path.join(rootDir, outDir, filePathRelative);
+  }
+
+  newPath = newPath.replace(/\.less$/, '.scss');
+
+  // make sure the new path directory exists in case it is nested
+  mkdir(path.dirname(newPath));
 
   write(newPath, output);
 }
@@ -58,20 +73,9 @@ function convert(filePath) {
  */
 
 program
+  .option('-d, --directory <value>', 'Directory to output Scss files')
   .version(require('../package.json').version)
-  .usage('<less file>');
-
-
-/**
- * Examples.
- */
-
-program.on('--help', function () {
-  console.log('  Commands:');
-  console.log();
-  console.log('    less2sass <less file>       converts the less file to scss.\n');
-  console.log();
-});
+  .usage('[options] <less file>');
 
 /**
  * Parse.
@@ -90,21 +94,21 @@ if (program.args[0] === undefined) {
   program.help();
 }
 
-function read(filePath) {
+function read(filePath, outDir, initialFilePath) {
   var fullPath = path.resolve(process.cwd(), filePath);
   var stats = fs.statSync(fullPath);
   info('scanning', fullPath);
   
   if (isLessFile(fullPath)) {
-    convert(fullPath);
+    convert(fullPath, outDir, initialFilePath);
   }
   else if (stats.isDirectory()){
     var files = fs.readdirSync(fullPath);
 
     for (var i = 0; i < files.length; i++) {
-      read(path.join(fullPath, files[i]));
+      read(path.join(fullPath, files[i]), outDir, initialFilePath);
     }
   }
 }
 
-read(program.args[0]);
+read(program.args[0], program.directory, program.args[0]);
