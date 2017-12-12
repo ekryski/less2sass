@@ -21,3 +21,20 @@ You can run less2sass on a single file or on entire directory. It will recurse t
 * This does not really convert colour functions, it makes a best attempt but most colour functions will need to be ported over manually
 * It does not convert to proper `.sass` yet. Only to `.scss`
 * It may be buggy so you have to check your code but hopefully this script will save you some time. If you come across a bug, please create an issue. Better yet, a pull request!
+
+## Node Script API
+
+```
+var less2sass = require('less2sass');
+/* or es6 */
+import * as less2sass from 'less2sass';
+
+var scss = less2sass.convert('@myColor: #f938ab; .myClass { color: @myColor; }');
+// scss -> $myColor: #f938ab; .myClass { color: $myColor; }'
+```
+
+## Typescript
+
+Install definition
+
+`npm i --save-dev @types/less2sass`
