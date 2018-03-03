@@ -56,13 +56,22 @@ $standard-fonts: '#{$san-serif-stack}, sans-serif';
 
 // styles
 
+@-webkit-keyframes grow-font-size {
+  0% {
+    font-size: .5em;
+  }
+  100% {
+    font-size: 1em;
+  }
+}
+
 @keyframes grow-font-size {
-    0% {
-        font-size: .5em;
-    }
-    100% {
-        font-size: 1em;
-    }
+  0% {
+    font-size: .5em;
+  }
+  100% {
+    font-size: 1em;
+  }
 }
 
 #header {
