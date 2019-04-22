@@ -103,3 +103,12 @@ $standard-fonts: '#{$san-serif-stack}, sans-serif';
     padding: 3px 6px;
   }
 }
+
+.call-mixin-with-variables {
+  @include call-mixin($variable-1, $variable-2, $variable-3);
+}
+
+@mixin call-mixin-within-mixin() {
+  @include hide-text();
+  @include call-mixin($variable-1, $variable-2, $variable-3);
+}

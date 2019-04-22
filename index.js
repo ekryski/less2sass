@@ -10,9 +10,10 @@ Less2Sass.prototype.convert = function(file) {
 
   this.convertInterpolatedVariables()
       .convertVariables()
+      .convertMixinParamss()
       .convertTildaStrings()
-      .convertMixins()
       .includeMixins()
+      .convertMixins()
       .convertExtend()
       .convertColourHelpers()
       .convertFileExtensions()
@@ -25,10 +26,8 @@ Less2Sass.prototype.includeMixins = function() {
   var includeRegex = /^(\s*)\.([a-zA-Z][\w\-]*\(?[^;{}]*\)?;{1}$)/gm;
 
   this.file = this.file.replace(includeRegex, '$1@include $2');
-
   return this;
 };
-
 
 Less2Sass.prototype.convertMixins = function() {
   // Simple form: no semicolons.
@@ -84,6 +83,25 @@ Less2Sass.prototype.convertInterpolatedVariables = function() {
   var interpolationRegex = /@\{(?!(\s|\())/g;
 
   this.file = this.file.replace(interpolationRegex, '#{$');
+
+  return this;
+};
+
+Less2Sass.prototype.convertMixinParamss = function() {
+  const atRegex = /(\([^\n]*)\$([^;]+);([ \t]*\$)([^)\n]*\))/g;
+
+  this.file = this.file.split('\n')
+    .map((line) => {
+      const trimmedLine = line.trim();
+      if (trimmedLine[trimmedLine.length - 1] !== '{') { // not a mixin declaration
+
+        while (atRegex.test(line)) {
+          line= line.replace(atRegex, '$1$$$2,$3$4');
+        }
+      }
+      return line;
+    })
+    .join('\n');
 
   return this;
 };
